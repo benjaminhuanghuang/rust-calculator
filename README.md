@@ -22,9 +22,9 @@ Evaluator evaluate the node of the AST in the right sequence
 
 
 ## modules
-- ast.rs
-- parser.rs 
+
 - tokenizer.rs
+
 We will choose the &str type, as we do not need to own the value or dynamically increase the size of the expression. This is because the user will provide the arithmetic expression once, and then the expression won't change for the duration of processing.
 
 We have to conver the string slict into an iterator (std::str::Chars), which not only allows us to iterate through the string slice to read each character, but also allows us to peek ahead and see value of the character following that.
@@ -43,10 +43,9 @@ the lifetime annotation tells the Rust compiler that any reference to the Tokeni
 
 The Rust compiler (specifically, the borrow checker) verifies that the lifetime of the reference is not longer than the lifetime of the underlying value pointed to by the reference.
 
+- token.rs: 
 
-
-
-- token.rs: data structures for token and opertor precedence
+data structures for token and opertor precedence
 ```
   #[derive(Debug, PartialEq, Clone)]
   pub enum Token {
@@ -62,6 +61,30 @@ The Rust compiler (specifically, the borrow checker) verifies that the lifetime 
   }
 ```
 
+```
+// Order of operators as per operator precedence rules (low to high)
+
+#[derive(Debug, PartialEq, PartialOrd)]
+/// Defines all the OperPrec levels, from lowest to highest.
+pub enum OperPrec {
+    DefaultZero,
+    AddSub,
+    MulDiv,
+    Power,
+    Negative,
+}
+
+```
+
+- parser.rs 
+
+The parser uses the Tokenizer outputs to construct an overall AST, which is a hierarchy of nodes
+```
+pub struct Parser<'a> {
+    tokenizer: Tokenizer<'a>,
+    current_token: Token,
+}
+```
 
 - ast.rs
 AST is a tree of nodes with each node representing a token (a number or an arithmetic operator).

@@ -15,6 +15,8 @@ pub struct Tokenizer<'a> {
 }
 
 // Constructs a new instance of Tokenizer
+// declaring a lifetime for Tokenizer in the impl line.
+// Impl<'a> declares the lifetime 'a, and Tokenizer<'a> uses it.
 impl<'a> Tokenizer<'a> {
   pub fn new(new_expr: &'a str) -> Self {
     Tokenizer {

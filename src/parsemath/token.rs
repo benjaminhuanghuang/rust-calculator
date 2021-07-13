@@ -20,7 +20,7 @@ pub enum Token {
 #[derive(Debug, PartialEq, PartialOrd)]
 /// Defines all the OperPrec levels, from lowest to highest.
 pub enum OperPrec {
-    DefaultZero,
+    DefaultZero, //The default precedence (lowest priority)
     AddSub,
     MulDiv,
     Power,
